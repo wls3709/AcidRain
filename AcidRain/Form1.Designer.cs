@@ -44,7 +44,6 @@ namespace AcidRain
             // 
             // menuStrip1
             // 
-            this.menuStrip1.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.LevelMenu,
@@ -117,9 +116,11 @@ namespace AcidRain
             // 
             // WordBox
             // 
-            this.WordBox.Location = new System.Drawing.Point(546, 710);
+            this.WordBox.Font = new System.Drawing.Font("굴림", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.WordBox.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.WordBox.Location = new System.Drawing.Point(547, 702);
             this.WordBox.Name = "WordBox";
-            this.WordBox.Size = new System.Drawing.Size(225, 28);
+            this.WordBox.Size = new System.Drawing.Size(225, 35);
             this.WordBox.TabIndex = 2;
             this.WordBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.WordBox_KeyDown);
             // 

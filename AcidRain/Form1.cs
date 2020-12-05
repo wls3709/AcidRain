@@ -40,8 +40,8 @@ namespace AcidRain
         enum DROP_CYCLE
         {
             EASY = 1200,
-            NORMAL = 600,
-            HARD = 100
+            NORMAL = 800,
+            HARD = 200
         }
         enum WORD_DAMAGE
         {
@@ -176,7 +176,6 @@ namespace AcidRain
                 strFmt.Alignment = StringAlignment.Far;
                 bg.Graphics.DrawString(strScore, font, Brushes.Black,
                     new RectangleF(ClientRectangle.Width - 120, 25, 120, 20), strFmt);
-                // bg.Graphics.DrawString(strScore, font, Brushes.Black, new Point(ClientRectangle.Width - 120, 25));
                 bg.Graphics.DrawString(strTime, font, Brushes.Black, new Point(0, 25));
                 for(int i = 0; i < falling_Words.Count; ++i)
                 {
@@ -237,11 +236,11 @@ namespace AcidRain
             Graphics g = this.CreateGraphics();
             List<CharacterRange> charRangeList = new List<CharacterRange>();
             List<Region> regionList = new List<Region>();
-            Region[] regionArr;
+            // Region[] regionArr;
             int x, y;
             int text_Width;
             int text_Height;
-            while (bRunning)
+            while (true)
             {
                 temp_Word.Clear();
                 charRangeList.Clear();
@@ -269,7 +268,6 @@ namespace AcidRain
                     }
                     strFormat.SetMeasurableCharacterRanges(charRangeList.ToArray());
                     // regionArr = g.MeasureCharacterRanges(temp_Word.ToString(), font, rect, strFormat);
-                    // regionList = regionArr.ToList();
                     regionList.AddRange(g.MeasureCharacterRanges(temp_Word.ToString(), font, rect, strFormat));
                     for (int i = 0; i < temp_Word.Length; ++i)
                     {
@@ -290,10 +288,19 @@ namespace AcidRain
                     {
                         falling_Words.RemoveAt(i);
                         falling_Word_Pos.RemoveAt(i);
-                        HealthBar.Value -= word_Damage;
+                        if (HealthBar.InvokeRequired)
+                        {
+                            HealthBar.Invoke(new MethodInvoker(delegate ()
+                            {
+                                HealthBar.Value -= word_Damage;
+                            }));
+                        }
+                        else
+                        {
+                            HealthBar.Value -= word_Damage;
+                        }
                     }
                 }
-                
                 DrawScreen();
                 Thread.Sleep(drop_Cycle);
             }
@@ -308,19 +315,31 @@ namespace AcidRain
         private void GameOver()
         {
             bRunning = false;
-            if (GameThread.IsAlive)
-            {
-                GameThread.Abort();
-            }
             TimeCounter.Dispose();
             Words.Clear();
             falling_Words.Clear();
             falling_Word_Pos.Clear();
-            StartGame.Enabled = true;
-            ResignGame.Enabled = false;
-            LevelMenu.Enabled = true;
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new MethodInvoker(delegate ()
+                {
+                    StartGame.Enabled = true;
+                    ResignGame.Enabled = false;
+                    LevelMenu.Enabled = true;
+                }));
+            }
+            else
+            {
+                StartGame.Enabled = true;
+                ResignGame.Enabled = false;
+                LevelMenu.Enabled = true;
+            }
             DrawScreen();
             MessageBox.Show("level : " + Level.ToString() + "\n" + "score : " + Score.ToString());
+            if (GameThread.IsAlive)
+            {
+                GameThread.Abort();
+            }
         }
 
         private void WordBox_KeyDown(object sender, KeyEventArgs e)
