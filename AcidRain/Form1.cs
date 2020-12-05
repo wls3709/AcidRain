@@ -93,7 +93,7 @@ namespace AcidRain
             File.WriteAllText(@"..\..\..\shuffled.txt", sb.ToString());
             MessageBox.Show("saved shuffle");
             */
-            HealthBar.Value = 100;
+            HealthBar.Value = HealthBar.Maximum;
             HealthBar.Update();
             Time = 120;
             Score = 0;
@@ -223,7 +223,7 @@ namespace AcidRain
 
         private void ResignGame_Click(object sender, EventArgs e)
         {
-            GameOver();
+            QuitGame();
         }
 
         private void RunGame()
@@ -247,7 +247,7 @@ namespace AcidRain
                 regionList.Clear();
                 text_Width = 0;
                 text_Height = 0;
-                if (HealthBar.Value <= 0 || Time <= 0)
+                if (Time <= 0)
                 {
                     GameOver();
                     break;
@@ -301,6 +301,11 @@ namespace AcidRain
                         }
                     }
                 }
+                if (HealthBar.Value <= HealthBar.Minimum)
+                {
+                    GameOver();
+                    break;
+                }
                 DrawScreen();
                 Thread.Sleep(drop_Cycle);
             }
@@ -335,11 +340,67 @@ namespace AcidRain
                 LevelMenu.Enabled = true;
             }
             DrawScreen();
-            MessageBox.Show("level : " + Level.ToString() + "\n" + "score : " + Score.ToString());
+            string Difficulty = null;
+            switch (Level)
+            {
+                case (int)DIFFICULTY.EASY:
+                    Difficulty = "EASY";
+                    break;
+                case (int)DIFFICULTY.NORMAL:
+                    Difficulty = "NORMAL";
+                    break;
+                case (int)DIFFICULTY.HARD:
+                    Difficulty = "HARD";
+                    break;
+            }
+            MessageBox.Show("level : " + Difficulty + "\n" + "score : " + Score.ToString());
             if (GameThread.IsAlive)
             {
                 GameThread.Abort();
             }
+        }
+
+        private void QuitGame()
+        {
+            bRunning = false;
+            if (GameThread.IsAlive)
+            {
+                GameThread.Abort();
+            }
+            TimeCounter.Dispose();
+            Words.Clear();
+            falling_Words.Clear();
+            falling_Word_Pos.Clear();
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new MethodInvoker(delegate ()
+                {
+                    StartGame.Enabled = true;
+                    ResignGame.Enabled = false;
+                    LevelMenu.Enabled = true;
+                }));
+            }
+            else
+            {
+                StartGame.Enabled = true;
+                ResignGame.Enabled = false;
+                LevelMenu.Enabled = true;
+            }
+            DrawScreen();
+            string Difficulty = null;
+            switch (Level)
+            {
+                case (int)DIFFICULTY.EASY:
+                    Difficulty = "EASY";
+                    break;
+                case (int)DIFFICULTY.NORMAL:
+                    Difficulty = "NORMAL";
+                    break;
+                case (int)DIFFICULTY.HARD:
+                    Difficulty = "HARD";
+                    break;
+            }
+            MessageBox.Show("level : " + Difficulty + "\n" + "score : " + Score.ToString());
         }
 
         private void WordBox_KeyDown(object sender, KeyEventArgs e)
