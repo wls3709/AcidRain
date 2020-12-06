@@ -10,6 +10,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MySql.Data;
+using MySql.Data.MySqlClient;
 
 namespace AcidRain
 {
@@ -82,8 +84,14 @@ namespace AcidRain
             DrawScreen();
         }
 
+        private void connDB()
+        {
+            string connStr = File.ReadAllText(@"..\..\..\dbconnect.txt");  //"server=localhost;user=root;database=world;port=3306;password=******";
+        }
+
         private void ResetGame()
         {
+            //Console.WriteLine("Hello");
             WordData = File.ReadAllLines(@"..\..\..\한글.txt");
             Words = new List<string>(WordData.OrderBy(i => Guid.NewGuid()).ToList());
             /*
