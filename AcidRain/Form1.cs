@@ -87,13 +87,42 @@ namespace AcidRain
         private void connDB()
         {
             string connStr = File.ReadAllText(@"..\..\..\dbconnect.txt");  //"server=localhost;user=root;database=world;port=3306;password=******";
+            using (MySqlConnection connection = new MySqlConnection(connStr))
+            {
+                try//예외 처리
+                {
+                    connection.Open();
+                    string sql = "SELECT `word` FROM word_list";
+
+                    MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(sql, connection);
+                    DataTable dt = new DataTable();
+                    mySqlDataAdapter.Fill(dt);
+
+                    Words = new List<string>();
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        Words.Add(row["word"].ToString());
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    WordData = File.ReadAllLines(@"..\..\..\한글.txt");
+                    Words = new List<string>(WordData.OrderBy(i => Guid.NewGuid()).ToList());
+                    //Console.WriteLine(ex.ToString());
+                    MessageBox.Show("DB 쿼리 실패로 텍스트 파일 로드.");
+                    MessageBox.Show(ex.ToString());
+                }
+
+            }
         }
 
         private void ResetGame()
         {
-            //Console.WriteLine("Hello");
-            WordData = File.ReadAllLines(@"..\..\..\한글.txt");
-            Words = new List<string>(WordData.OrderBy(i => Guid.NewGuid()).ToList());
+            connDB();
+            //WordData = File.ReadAllLines(@"..\..\..\한글.txt");
+            //Words = new List<string>(WordData.OrderBy(i => Guid.NewGuid()).ToList());
+            //
             /*
             MessageBox.Show("shuffle finished");
             StringBuilder sb = new StringBuilder();
@@ -176,58 +205,65 @@ namespace AcidRain
 
         private void DrawScreen()
         {
-            Graphics g = this.CreateGraphics();
-            using (BufferedGraphics bg = BufferedGraphicsManager.Current.Allocate(g, this.ClientRectangle))
+            try
             {
-                switch (Level)
+                Graphics g = this.CreateGraphics();
+                using (BufferedGraphics bg = BufferedGraphicsManager.Current.Allocate(g, this.ClientRectangle))
                 {
-                    case (int)DIFFICULTY.EASY:
-                        bg.Graphics.DrawImage(Ocean, 0, 0); break;
-                    case (int)DIFFICULTY.NORMAL:
-                        bg.Graphics.DrawImage(LightHouse, 0, 0); break;
-                    case (int)DIFFICULTY.HARD:
-                        bg.Graphics.DrawImage(City, 0, 0); break;
-                }
-                
-                bg.Graphics.FillRectangle(Brushes.Black, floor_Rect);
-                string strScore = string.Format("점수 : {0}", Score);
-                string strTime = string.Format("남은 시간 : {0}", Time);
-                Font font = new Font("맑은 고딕", 12);
-                StringFormat strFmt = new StringFormat();
-                strFmt.Alignment = StringAlignment.Far;
-                bg.Graphics.DrawString(strScore, font, Brushes.LightGreen,
-                    new RectangleF(ClientRectangle.Width - 120, 25, 120, 20), strFmt);
-                bg.Graphics.DrawString(strTime, font, Brushes.LightGreen, new Point(0, 25));
-                for(int i = 0; i < falling_Words.Count; ++i)
-                {
-                    bg.Graphics.DrawString(falling_Words[i], font, Brushes.LightGreen, falling_Word_Pos[i]);
-                }
-                /*
-                string str = "문자열 크기 측정 테스트";
-                using (StringFormat format = new StringFormat())
-                {
-                    Rectangle rect = new Rectangle(200, 200, 200, 20);
-                    format.Alignment = StringAlignment.Center;
-                    format.LineAlignment = StringAlignment.Center;
-                    bg.Graphics.DrawString(str, font, Brushes.Black, rect, format);
-                    List<CharacterRange> charRangeList = new List<CharacterRange>();
-                    for (int i = 0; i < str.Length; ++i)
+                    switch (Level)
                     {
-                        charRangeList.Add(new CharacterRange(i, 1));
+                        case (int)DIFFICULTY.EASY:
+                            bg.Graphics.DrawImage(Ocean, 0, 0); break;
+                        case (int)DIFFICULTY.NORMAL:
+                            bg.Graphics.DrawImage(LightHouse, 0, 0); break;
+                        case (int)DIFFICULTY.HARD:
+                            bg.Graphics.DrawImage(City, 0, 0); break;
                     }
-                    format.SetMeasurableCharacterRanges(charRangeList.ToArray());
-                    Region[] regionArr = bg.Graphics.MeasureCharacterRanges(str, font, rect, format);
-                    for (int i = 0; i < str.Length; ++i)
+
+                    bg.Graphics.FillRectangle(Brushes.Black, floor_Rect);
+                    string strScore = string.Format("점수 : {0}", Score);
+                    string strTime = string.Format("남은 시간 : {0}", Time);
+                    Font font = new Font("맑은 고딕", 12);
+                    StringFormat strFmt = new StringFormat();
+                    strFmt.Alignment = StringAlignment.Far;
+                    bg.Graphics.DrawString(strScore, font, Brushes.LightGreen,
+                        new RectangleF(ClientRectangle.Width - 120, 25, 120, 20), strFmt);
+                    bg.Graphics.DrawString(strTime, font, Brushes.LightGreen, new Point(0, 25));
+                    for (int i = 0; i < falling_Words.Count; ++i)
                     {
-                        Rectangle textRect = Rectangle.Round(regionArr[i].GetBounds(bg.Graphics));
-                        bg.Graphics.DrawRectangle(Pens.Red, textRect);
+                        bg.Graphics.DrawString(falling_Words[i], font, Brushes.LightGreen, falling_Word_Pos[i]);
                     }
+                    /*
+                    string str = "문자열 크기 측정 테스트";
+                    using (StringFormat format = new StringFormat())
+                    {
+                        Rectangle rect = new Rectangle(200, 200, 200, 20);
+                        format.Alignment = StringAlignment.Center;
+                        format.LineAlignment = StringAlignment.Center;
+                        bg.Graphics.DrawString(str, font, Brushes.Black, rect, format);
+                        List<CharacterRange> charRangeList = new List<CharacterRange>();
+                        for (int i = 0; i < str.Length; ++i)
+                        {
+                            charRangeList.Add(new CharacterRange(i, 1));
+                        }
+                        format.SetMeasurableCharacterRanges(charRangeList.ToArray());
+                        Region[] regionArr = bg.Graphics.MeasureCharacterRanges(str, font, rect, format);
+                        for (int i = 0; i < str.Length; ++i)
+                        {
+                            Rectangle textRect = Rectangle.Round(regionArr[i].GetBounds(bg.Graphics));
+                            bg.Graphics.DrawRectangle(Pens.Red, textRect);
+                        }
+                    }
+                    */
+                    bg.Render(g);
+                    bg.Dispose();
                 }
-                */
-                bg.Render(g);
-                bg.Dispose();
+                g.Dispose();
             }
-            g.Dispose();
+            catch(Exception ex)
+            {
+                //MessageBox.Show("error hi");
+            }
         }
 
         private void StartGame_Click(object sender, EventArgs e)
