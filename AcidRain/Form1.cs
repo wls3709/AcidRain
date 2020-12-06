@@ -31,6 +31,7 @@ namespace AcidRain
         List<Point> falling_Word_Pos;
         Thread GameThread;
         System.Threading.Timer TimeCounter;
+        Image Ocean, LightHouse, City;
         enum DIFFICULTY
         {
             EASY = 1,
@@ -65,6 +66,9 @@ namespace AcidRain
                 new Size(ClientRectangle.Width, floor_Height));
             falling_Words = new List<string>();
             falling_Word_Pos = new List<Point>();
+            Ocean = Properties.Resources.ocean_5;
+            LightHouse = Properties.Resources.lighthouse_2;
+            City = Properties.Resources.city_2;
             ResetGame();
         }
 
@@ -167,19 +171,28 @@ namespace AcidRain
             Graphics g = this.CreateGraphics();
             using (BufferedGraphics bg = BufferedGraphicsManager.Current.Allocate(g, this.ClientRectangle))
             {
-                bg.Graphics.Clear(BackColor);
+                switch (Level)
+                {
+                    case (int)DIFFICULTY.EASY:
+                        bg.Graphics.DrawImage(Ocean, 0, 0); break;
+                    case (int)DIFFICULTY.NORMAL:
+                        bg.Graphics.DrawImage(LightHouse, 0, 0); break;
+                    case (int)DIFFICULTY.HARD:
+                        bg.Graphics.DrawImage(City, 0, 0); break;
+                }
+                
                 bg.Graphics.FillRectangle(Brushes.Black, floor_Rect);
                 string strScore = string.Format("점수 : {0}", Score);
                 string strTime = string.Format("남은 시간 : {0}", Time);
                 Font font = new Font("맑은 고딕", 12);
                 StringFormat strFmt = new StringFormat();
                 strFmt.Alignment = StringAlignment.Far;
-                bg.Graphics.DrawString(strScore, font, Brushes.Black,
+                bg.Graphics.DrawString(strScore, font, Brushes.LightGreen,
                     new RectangleF(ClientRectangle.Width - 120, 25, 120, 20), strFmt);
-                bg.Graphics.DrawString(strTime, font, Brushes.Black, new Point(0, 25));
+                bg.Graphics.DrawString(strTime, font, Brushes.LightGreen, new Point(0, 25));
                 for(int i = 0; i < falling_Words.Count; ++i)
                 {
-                    bg.Graphics.DrawString(falling_Words[i], font, Brushes.Black, falling_Word_Pos[i]);
+                    bg.Graphics.DrawString(falling_Words[i], font, Brushes.LightGreen, falling_Word_Pos[i]);
                 }
                 /*
                 string str = "문자열 크기 측정 테스트";
