@@ -34,7 +34,7 @@ namespace AcidRain
         System.Object ThreadLock = new System.Object();
         Thread GameThread;
         System.Threading.Timer TimeCounter;
-        Image Ocean, LightHouse, City;
+        Image Ocean, Ocean_red, Ocean_red2, LightHouse, LightHouse_red, LightHouse_red2, City, City_red, City_red2;
         enum DIFFICULTY
         {
             EASY = 1,
@@ -70,8 +70,14 @@ namespace AcidRain
             falling_Words = new List<string>();
             falling_Word_Pos = new List<Point>();
             Ocean = Properties.Resources.ocean_5;
+            Ocean_red = Properties.Resources.ocean_5_red;
+            Ocean_red2 = Properties.Resources.ocean_5_red2;
             LightHouse = Properties.Resources.lighthouse_2;
+            LightHouse_red = Properties.Resources.lighthouse_2_red;
+            LightHouse_red2 = Properties.Resources.lighthouse_2_red2;
             City = Properties.Resources.city_2;
+            City_red = Properties.Resources.city_2_red;
+            City_red2 = Properties.Resources.city_2_red2;
             ResetGame();
         }
 
@@ -216,11 +222,47 @@ namespace AcidRain
                     switch (Level)
                     {
                         case (int)DIFFICULTY.EASY:
-                            bg.Graphics.DrawImage(Ocean, 0, 0); break;
+                            if(HealthBar.Value >= 70)
+                            {
+                                bg.Graphics.DrawImage(Ocean, 0, 0); 
+                            }
+                            else if(HealthBar.Value >= 30)
+                            {
+                                bg.Graphics.DrawImage(Ocean_red, 0, 0);
+                            }
+                            else
+                            {
+                                bg.Graphics.DrawImage(Ocean_red2, 0, 0);
+                            }
+                            break;
                         case (int)DIFFICULTY.NORMAL:
-                            bg.Graphics.DrawImage(LightHouse, 0, 0); break;
+                            if (HealthBar.Value >= 70)
+                            {
+                                bg.Graphics.DrawImage(LightHouse, 0, 0);
+                            }
+                            else if (HealthBar.Value >= 30)
+                            {
+                                bg.Graphics.DrawImage(LightHouse_red, 0, 0);
+                            }
+                            else
+                            {
+                                bg.Graphics.DrawImage(LightHouse_red2, 0, 0);
+                            }
+                            break;
                         case (int)DIFFICULTY.HARD:
-                            bg.Graphics.DrawImage(City, 0, 0); break;
+                            if (HealthBar.Value >= 70)
+                            {
+                                bg.Graphics.DrawImage(City, 0, 0);
+                            }
+                            else if (HealthBar.Value >= 30)
+                            {
+                                bg.Graphics.DrawImage(City_red, 0, 0);
+                            }
+                            else
+                            {
+                                bg.Graphics.DrawImage(City_red2, 0, 0);
+                            }
+                            break;
                     }
 
                     bg.Graphics.FillRectangle(Brushes.Black, floor_Rect);
