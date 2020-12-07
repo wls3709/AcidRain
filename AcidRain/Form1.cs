@@ -31,6 +31,7 @@ namespace AcidRain
         List<string> Words;
         List<string> falling_Words;
         List<Point> falling_Word_Pos;
+        System.Object ThreadLock = new System.Object();
         Thread GameThread;
         System.Threading.Timer TimeCounter;
         Image Ocean, LightHouse, City;
@@ -98,11 +99,13 @@ namespace AcidRain
                     DataTable dt = new DataTable();
                     mySqlDataAdapter.Fill(dt);
 
-                    Words = new List<string>();
+                    List<string> Database = new List<string>();
                     foreach (DataRow row in dt.Rows)
                     {
-                        Words.Add(row["word"].ToString());
+                        Database.Add(row["word"].ToString());
                     }
+                    Words = new List<string>(Database.OrderBy(i => Guid.NewGuid()));
+                    Database.Clear();
 
                 }
                 catch (Exception ex)
@@ -205,7 +208,7 @@ namespace AcidRain
 
         private void DrawScreen()
         {
-            try
+            lock (ThreadLock)
             {
                 Graphics g = this.CreateGraphics();
                 using (BufferedGraphics bg = BufferedGraphicsManager.Current.Allocate(g, this.ClientRectangle))
@@ -260,10 +263,16 @@ namespace AcidRain
                 }
                 g.Dispose();
             }
+            /*
+            try
+            {
+                
+            }
             catch(Exception ex)
             {
                 //MessageBox.Show("error hi");
             }
+            */
         }
 
         private void StartGame_Click(object sender, EventArgs e)
