@@ -32,9 +32,10 @@ namespace AcidRain
         List<string> falling_Words;
         List<Point> falling_Word_Pos;
         System.Object ThreadLock = new System.Object();
-        Thread GameThread;
+        Thread GameThread, m_thr;
         System.Threading.Timer TimeCounter;
         Image Ocean, Ocean_red, Ocean_red2, LightHouse, LightHouse_red, LightHouse_red2, City, City_red, City_red2;
+        RankingForm RankFrm;
         enum DIFFICULTY
         {
             EASY = 1,
@@ -461,7 +462,16 @@ namespace AcidRain
                     Difficulty = "HARD";
                     break;
             }
-            MessageBox.Show("level : " + Difficulty + "\n" + "score : " + Score.ToString());
+            //open_rankingForm();
+            //m_thr = new Thread(open_rankingForm);
+            //m_thr.Start();
+            //open_rankingForm();
+            //MessageBox.Show("level : " + Difficulty + "\n" + "score : " + Score.ToString());
+            if (InvokeRequired)
+            {
+                this.Invoke(new Action(() => open_rankingForm()));
+                return;
+            }
             if (GameThread.IsAlive)
             {
                 GameThread.Abort();
@@ -480,12 +490,14 @@ namespace AcidRain
                     string sql = "SELECT `name`, `score`, `difficulty` FROM score ORDER BY `score` DESC LIMIT 10";
 
                     MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(sql, connection);
+
                     DataTable dt = new DataTable();
                     mySqlDataAdapter.Fill(dt);
 
-                    string m_str="name\t\tscore\t\tdifficulty\n";
+                    string m_str="\tname\t\tscore\t\tdifficulty\n\n";
                     string difficulty_changer = "";
                     string name_format = "";
+                    int i = 1;
                     foreach (DataRow row in dt.Rows)
                     {
                         if (row["difficulty"].ToString() == "0")
@@ -503,7 +515,8 @@ namespace AcidRain
                         name_format = row["name"].ToString();
                         if (name_format.Length < 5)
                             name_format += "\t";
-                        m_str += name_format + "\t" + row["score"].ToString() + "\t\t" + difficulty_changer + "\n";
+                        m_str += i.ToString()+".\t"+name_format + "\t" + row["score"].ToString() + "\t\t" + difficulty_changer + "\n";
+                        i++;
                         //MessageBox.Show(row["name"].ToString() +"d" +row["score"].ToString() + "d" + row["difficulty"].ToString());
                     }
                     MessageBox.Show(m_str);
@@ -522,6 +535,44 @@ namespace AcidRain
             }
         }
 
+        public void InsertRanking(string name)
+        {
+            string connStr = File.ReadAllText(@"..\..\..\dbconnect.txt");  //"server=localhost;user=root;database=world;port=3306;password=******";
+            using (MySqlConnection connection = new MySqlConnection(connStr))
+            {
+                try//예외 처리
+                {
+                    connection.Open();
+                    string ssql = "INSERT INTO `hangul`.`score` (`name`, `score`, `difficulty`) VALUES ('"+name+"', '"+Score.ToString()+"', '"+(Level-1).ToString()+"')";
+                    MySqlCommand mcmd = new MySqlCommand(ssql, connection);
+                    mcmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("랭킹 DB 입력 실패");
+                }
+
+            }
+        }
+
+        private void open_rankingForm()
+        {
+            foreach (Form frm in Application.OpenForms)
+            {
+                if (frm.Name == "RankingForm")
+                {
+                    frm.Activate();
+                    return;
+                }
+            }
+
+            RankFrm = new RankingForm();
+            RankFrm.Owner = this;
+            RankFrm.parent = this;
+
+            RankFrm.Show();
+        }
+
         private void QuitGame()
         {
             bRunning = false;
@@ -529,6 +580,7 @@ namespace AcidRain
             {
                 GameThread.Abort();
             }
+            open_rankingForm();
             TimeCounter.Dispose();
             Words.Clear();
             falling_Words.Clear();
@@ -562,7 +614,7 @@ namespace AcidRain
                     Difficulty = "HARD";
                     break;
             }
-            MessageBox.Show("level : " + Difficulty + "\n" + "score : " + Score.ToString());
+            //MessageBox.Show("level : " + Difficulty + "\n" + "score : " + Score.ToString());
         }
 
         private void WordBox_KeyDown(object sender, KeyEventArgs e)
