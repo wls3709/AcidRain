@@ -10,19 +10,24 @@ using System.Windows.Forms;
 
 namespace AcidRain
 {
-    public partial class RankingForm : Form
+    public partial class RankUploader : Form
     {
         public Form1 parent;
-        public RankingForm()
+        public RankUploader()
         {
             InitializeComponent();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string name=textBox1.Text;
+            string name = textBox1.Text;
             parent.InsertRanking(name);
             this.Dispose();
+        }
+
+        private void RankUploader_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            parent.OpenRankList();
         }
     }
 }
