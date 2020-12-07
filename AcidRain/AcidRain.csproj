@@ -136,5 +136,11 @@
   <ItemGroup>
     <None Include="Resources\ocean_5.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\acidrain.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cloud_yellow2.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
