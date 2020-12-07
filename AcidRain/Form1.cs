@@ -426,6 +426,42 @@ namespace AcidRain
             }
         }
 
+        private void Show_Ranking_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("ranking");
+            string connStr = File.ReadAllText(@"..\..\..\dbconnect.txt");  //"server=localhost;user=root;database=world;port=3306;password=******";
+            using (MySqlConnection connection = new MySqlConnection(connStr))
+            {
+                try//예외 처리
+                {
+                    connection.Open();
+                    string sql = "SELECT `word` FROM word_list";
+
+                    MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(sql, connection);
+                    DataTable dt = new DataTable();
+                    mySqlDataAdapter.Fill(dt);
+
+                    List<string> Database = new List<string>();
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        Database.Add(row["word"].ToString());
+                    }
+                    Words = new List<string>(Database.OrderBy(i => Guid.NewGuid()));
+                    Database.Clear();
+
+                }
+                catch (Exception ex)
+                {
+                    WordData = File.ReadAllLines(@"..\..\..\한글.txt");
+                    Words = new List<string>(WordData.OrderBy(i => Guid.NewGuid()).ToList());
+                    //Console.WriteLine(ex.ToString());
+                    MessageBox.Show("DB 쿼리 실패로 텍스트 파일 로드.");
+                    MessageBox.Show(ex.ToString());
+                }
+
+            }
+        }
+
         private void QuitGame()
         {
             bRunning = false;
