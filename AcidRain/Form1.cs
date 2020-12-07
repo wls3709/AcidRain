@@ -66,6 +66,7 @@ namespace AcidRain
         {
             InitializeComponent();
             prevState = this.WindowState;
+            WordData = File.ReadAllLines(@"..\..\..\한글.txt");
             NormalLevel.Checked = true;
             drop_Height = 25;
             floor_Height = 100;
@@ -141,7 +142,6 @@ namespace AcidRain
                     {
                         return;
                     }
-                    WordData = File.ReadAllLines(@"..\..\..\한글.txt");
                     Words = new List<string>(WordData.OrderBy(i => Guid.NewGuid()).ToList());
                     MessageBox.Show("DB 쿼리 실패로 텍스트 파일 로드.");
                     // MessageBox.Show(ex.ToString());
