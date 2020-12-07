@@ -40,6 +40,8 @@ namespace AcidRain
             this.ResignGame = new System.Windows.Forms.ToolStripMenuItem();
             this.HealthBar = new System.Windows.Forms.ProgressBar();
             this.WordBox = new System.Windows.Forms.TextBox();
+            this.랭킹ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Show_Ranking = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -48,7 +50,8 @@ namespace AcidRain
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.LevelMenu,
-            this.GameMenu});
+            this.GameMenu,
+            this.랭킹ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 1, 0, 1);
@@ -128,6 +131,21 @@ namespace AcidRain
             this.WordBox.TabIndex = 2;
             this.WordBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.WordBox_KeyDown);
             // 
+            // 랭킹ToolStripMenuItem
+            // 
+            this.랭킹ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.Show_Ranking});
+            this.랭킹ToolStripMenuItem.Name = "랭킹ToolStripMenuItem";
+            this.랭킹ToolStripMenuItem.Size = new System.Drawing.Size(43, 22);
+            this.랭킹ToolStripMenuItem.Text = "랭킹";
+            // 
+            // Show_Ranking
+            // 
+            this.Show_Ranking.Name = "Show_Ranking";
+            this.Show_Ranking.Size = new System.Drawing.Size(180, 22);
+            this.Show_Ranking.Text = "랭킹 보기";
+            this.Show_Ranking.Click += new System.EventHandler(this.Show_Ranking_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -164,6 +182,8 @@ namespace AcidRain
         private System.Windows.Forms.ToolStripMenuItem ResignGame;
         private System.Windows.Forms.ProgressBar HealthBar;
         private System.Windows.Forms.TextBox WordBox;
+        private System.Windows.Forms.ToolStripMenuItem 랭킹ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem Show_Ranking;
     }
 }
 

@@ -468,6 +468,60 @@ namespace AcidRain
             }
         }
 
+        private void Show_Ranking_Click(object sender, EventArgs e)
+        {
+            //MessageBox.Show("ranking");
+            string connStr = File.ReadAllText(@"..\..\..\dbconnect.txt");  //"server=localhost;user=root;database=world;port=3306;password=******";
+            using (MySqlConnection connection = new MySqlConnection(connStr))
+            {
+                try//예외 처리
+                {
+                    connection.Open();
+                    string sql = "SELECT `name`, `score`, `difficulty` FROM score ORDER BY `score` DESC LIMIT 10";
+
+                    MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(sql, connection);
+                    DataTable dt = new DataTable();
+                    mySqlDataAdapter.Fill(dt);
+
+                    string m_str="name\t\tscore\t\tdifficulty\n";
+                    string difficulty_changer = "";
+                    string name_format = "";
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        if (row["difficulty"].ToString() == "0")
+                        {
+                            difficulty_changer = "Easy";
+                        }
+                        else if (row["difficulty"].ToString() == "1")
+                        {
+                            difficulty_changer = "Normal";
+                        }
+                        else
+                        {
+                            difficulty_changer = "Hard";
+                        }
+                        name_format = row["name"].ToString();
+                        if (name_format.Length < 5)
+                            name_format += "\t";
+                        m_str += name_format + "\t" + row["score"].ToString() + "\t\t" + difficulty_changer + "\n";
+                        //MessageBox.Show(row["name"].ToString() +"d" +row["score"].ToString() + "d" + row["difficulty"].ToString());
+                    }
+                    MessageBox.Show(m_str);
+                    //Words = new List<string>(Database.OrderBy(i => Guid.NewGuid()));
+
+                }
+                catch (Exception ex)
+                {
+                    //WordData = File.ReadAllLines(@"..\..\..\한글.txt");
+                    //Words = new List<string>(WordData.OrderBy(i => Guid.NewGuid()).ToList());
+                    //Console.WriteLine(ex.ToString());
+                    MessageBox.Show("랭킹 DB 쿼리 실패");
+                    //MessageBox.Show(ex.ToString());
+                }
+
+            }
+        }
+
         private void QuitGame()
         {
             bRunning = false;
