@@ -435,19 +435,33 @@ namespace AcidRain
                 try//예외 처리
                 {
                     connection.Open();
-                    string sql = "SELECT `word` FROM word_list";
+                    string sql = "SELECT `name`, `score`, `difficulty` FROM score";
 
                     MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(sql, connection);
                     DataTable dt = new DataTable();
                     mySqlDataAdapter.Fill(dt);
 
-                    List<string> Database = new List<string>();
+                    string m_str="name\tscore\tdifficulty\n";
+                    string difficulty_changer = "";
                     foreach (DataRow row in dt.Rows)
                     {
-                        Database.Add(row["word"].ToString());
+                        if (row["difficulty"].ToString() == "0")
+                        {
+                            difficulty_changer = "Easy";
+                        }
+                        else if (row["difficulty"].ToString() == "1")
+                        {
+                            difficulty_changer = "Normal";
+                        }
+                        else
+                        {
+                            difficulty_changer = "Hard";
+                        }
+                        m_str += row["name"].ToString() + "\t" + row["score"].ToString() + "\t" + difficulty_changer + "\n";
+                        //MessageBox.Show(row["name"].ToString() +"d" +row["score"].ToString() + "d" + row["difficulty"].ToString());
                     }
-                    Words = new List<string>(Database.OrderBy(i => Guid.NewGuid()));
-                    Database.Clear();
+                    MessageBox.Show(m_str);
+                    //Words = new List<string>(Database.OrderBy(i => Guid.NewGuid()));
 
                 }
                 catch (Exception ex)
