@@ -142,5 +142,23 @@
   <ItemGroup>
     <None Include="Resources\cloud_yellow2.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\city_2_red.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\city_2_red2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\lighthouse_2_red.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\lighthouse_2_red2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ocean_5_red.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ocean_5_red2.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

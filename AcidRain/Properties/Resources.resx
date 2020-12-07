@@ -121,13 +121,31 @@
   <data name="city_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\city_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="city_2_red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\city_2_red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="city_2_red2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\city_2_red2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="cloud_yellow2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\cloud_yellow2.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="lighthouse_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\lighthouse_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="lighthouse_2_red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\lighthouse_2_red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="lighthouse_2_red2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\lighthouse_2_red2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="ocean_5" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ocean_5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ocean_5_red" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ocean_5_red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ocean_5_red2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ocean_5_red2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
