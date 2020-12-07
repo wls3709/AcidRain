@@ -29,6 +29,7 @@ namespace AcidRain
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.LevelMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.EasyLevel = new System.Windows.Forms.ToolStripMenuItem();
@@ -72,19 +73,19 @@ namespace AcidRain
             // EasyLevel
             // 
             this.EasyLevel.Name = "EasyLevel";
-            this.EasyLevel.Size = new System.Drawing.Size(180, 22);
+            this.EasyLevel.Size = new System.Drawing.Size(110, 22);
             this.EasyLevel.Text = "쉬움";
             // 
             // NormalLevel
             // 
             this.NormalLevel.Name = "NormalLevel";
-            this.NormalLevel.Size = new System.Drawing.Size(180, 22);
+            this.NormalLevel.Size = new System.Drawing.Size(110, 22);
             this.NormalLevel.Text = "보통";
             // 
             // HardLevel
             // 
             this.HardLevel.Name = "HardLevel";
-            this.HardLevel.Size = new System.Drawing.Size(180, 22);
+            this.HardLevel.Size = new System.Drawing.Size(110, 22);
             this.HardLevel.Text = "어려움";
             // 
             // GameMenu
@@ -99,7 +100,7 @@ namespace AcidRain
             // StartGame
             // 
             this.StartGame.Name = "StartGame";
-            this.StartGame.Size = new System.Drawing.Size(180, 22);
+            this.StartGame.Size = new System.Drawing.Size(126, 22);
             this.StartGame.Text = "게임 시작";
             this.StartGame.Click += new System.EventHandler(this.StartGame_Click);
             // 
@@ -107,7 +108,7 @@ namespace AcidRain
             // 
             this.ResignGame.Enabled = false;
             this.ResignGame.Name = "ResignGame";
-            this.ResignGame.Size = new System.Drawing.Size(180, 22);
+            this.ResignGame.Size = new System.Drawing.Size(126, 22);
             this.ResignGame.Text = "게임 포기";
             this.ResignGame.Click += new System.EventHandler(this.ResignGame_Click);
             // 
@@ -150,10 +151,11 @@ namespace AcidRain
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(931, 499);
+            this.ClientSize = new System.Drawing.Size(931, 557);
             this.Controls.Add(this.WordBox);
             this.Controls.Add(this.HealthBar);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "Form1";
